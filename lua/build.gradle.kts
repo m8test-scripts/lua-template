@@ -39,6 +39,7 @@ m8testLua {
     }
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
+        adbDeviceSerial = providers.gradleProperty("adbDeviceSerial").orNull
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
         // adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
@@ -52,20 +53,15 @@ m8testLua {
         // 打包apk时的运行时模板apk配置, 打包apk时会将脚本项目打包到该模板apk中
         runtimeConfig {
             // 模板apk的版本
-            versionName = m8testVersion
-            // 模板apk下载地址
-            downloadUrl =
-                "https://github.com/m8test/runtime-release/releases/download/${versionName}/com.m8test.app.runtime-release_${versionName}.apk"
+            version = m8testVersion
         }
         // M8Test 开发工具配置闭包
         developmentKitConfig {
             // 开发工具的包名, 使用默认就好
             packageName = "com.m8test.app.developmentkit"
             // 开发工具版本
-            versionName = m8testVersion
-            // 开发工具下载地址
-            downloadUrl =
-                "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
+            version = m8testVersion
+            localApk = providers.gradleProperty("developmentKitApk").orNull?.let(::file)
             // api文档根目录
             docsRoot = "https://sdk-docs.m8test.com/sdk"
         }
@@ -73,21 +69,15 @@ m8testLua {
     pullGlobalVariablesFileTimes = 10
     settingsConfig {
         language {
-            extensionId = "com.m8test.extension.language.lua"
+            groupId = "com.m8test.language"
+            artifactId = "lua"
             entryId = "lua"
             version = languagePluginVersion
-            url =
-                "https://github.com/m8test/language-release/releases/download/lua-\$version/com.m8test.lua-release_\$version.apk"
         }
     }
     // 脚本项目配置闭包
     projectConfig {
-        requireComponent {
-            name = "M8Test Compose Extension"
-            version = composeExtensionVersion
-            url = "https://github.com/m8test/m8test-compose-extension/releases/download/$composeExtensionVersion/com.m8test.extension.compose-release_$composeExtensionVersion.apk"
-            extensionId = "com.m8test.extension.compose"
-        }
+        requireComponent("com.m8test.extension", "compose", composeExtensionVersion)
         // 是否将插件(语言/组件)打包进脚项目中, 如果不将插件打包进脚本项目中，那么运行时会从网络下载需要的语言以及组件，但是需要确保能正常访问外网，这种方式打包速度快，推荐开发时使用这种方式;如果是打包成apk，推荐将插件打包进脚项目中, 这样交付给用户之后就可以直接使用，而无需从网络下载插件, 但是这样安装包会更大
         isPluginsBundled = false
         // 相对于res目录的资源文件,会打包到apk的assets目录下
