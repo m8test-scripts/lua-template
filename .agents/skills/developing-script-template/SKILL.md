@@ -7,6 +7,12 @@ description: 当需要开发、测试或验证本脚本项目模板及其语言�
 
 本技能用于开发本项目提供的脚本模板。先从 `README.md`、`settings.gradle.kts` 和 Gradle 配置识别语言与任务前缀。
 
+发现或使用脚本全局变量时，读取 `using-script-global-variables` 技能；它要求从当前项目的生成任务确认完整变量名和类型。
+
+访问 JVM 类、成员或传递函数 callback 时，读取 accessing-jvm-from-lua 技能；它记录本语言的运行时边界和验证入口。
+
+创建 JVM 数组/集合或操作对象 wrapper 时，读取 using-host-values-and-wrappers 技能；它说明宿主工厂、wrapper 与 origin 的边界。
+
 ## 日常流程
 
 1. 阅读本仓库现有脚本、资源、`src/test-control` fixture 和项目配置，再修改模板内容。

@@ -1,0 +1,19 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "lua-template-jvm-interop",
+  "fileName": "main.lua",
+  "scriptFile": "main.lua",
+  "timeoutMillis": 30000,
+  "properties": {},
+  "components": [],
+  "expectedLogs": [
+    "lua-template-jvm-interop:passed"
+  ],
+  "language": {
+    "groupId": "com.m8test.language",
+    "artifactId": "lua",
+    "version": "0.1.7",
+    "languageEntryId": "lua"
+  }
+}
