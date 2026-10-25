@@ -1,0 +1,33 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "lua-template-coroutine-thread-context",
+  "fileName": "main.lua",
+  "scriptFile": "main.lua",
+  "timeoutMillis": 30000,
+  "properties": {
+    "m8test.testControl.adbPort": "5555"
+  },
+  "components": [],
+  "expectedLogs": [
+    "coroutine:lua:script-main-verified",
+    "coroutine:lua:io-captured-value-verified",
+    "coroutine:lua:other-task-progressed",
+    "coroutine:lua:delayed-captured-value-verified",
+    "coroutine:lua:launch",
+    "coroutine:lua:async",
+    "coroutine:lua:async-success",
+    "coroutine:lua:with-context",
+    "coroutine:lua:flow:1",
+    "coroutine:lua:flow:2",
+    "coroutine:lua:flow-complete",
+    "coroutine:lua:cancelled-work-complete",
+    "coroutine:lua:gate"
+  ],
+  "language": {
+    "groupId": "com.m8test.language",
+    "artifactId": "lua",
+    "version": "0.1.7",
+    "languageEntryId": "lua"
+  }
+}

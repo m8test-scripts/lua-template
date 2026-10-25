@@ -1,0 +1,13 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "lua-template-coroutine-context-nesting",
+  "fileName": "main.lua",
+  "scriptFile": "main.lua",
+  "timeoutMillis": 30000,
+  "properties": { "m8test.testControl.adbPort": "5555" },
+  "components": [],
+  "expectedLogs": ["nest:lua:outer-started", "nest:lua:outer-resumed", "nest:lua:inner-callback", "nest:lua:other-task-progressed", "nest:lua:delay-resumed", "nest:lua:gate"],
+  "expectedOutcome": "succeeded",
+  "language": { "groupId": "com.m8test.language", "artifactId": "lua", "version": "0.1.7", "languageEntryId": "lua" }
+}

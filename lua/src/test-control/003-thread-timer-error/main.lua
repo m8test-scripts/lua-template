@@ -1,0 +1,5 @@
+local timer = _G._script:getThreads():getMain():getTimer()
+timer:setImmediate(function(params)
+  _G._logger:info("thread-context:lua:timer-error")
+  error("expected timer callback failure")
+end)

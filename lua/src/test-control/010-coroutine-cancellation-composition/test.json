@@ -1,0 +1,31 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "lua-template-coroutine-cancellation-composition",
+  "fileName": "main.lua",
+  "scriptFile": "main.lua",
+  "timeoutMillis": 30000,
+  "properties": {
+    "m8test.testControl.adbPort": "5555"
+  },
+  "components": [],
+  "expectedLogs": [
+    "coroutine:lua:timeout-cancellation-preserved",
+    "coroutine:lua:timeout-or-null-ok",
+    "coroutine:lua:timeout-or-null-complete",
+    "coroutine:lua:loop-timeout-cancelled-wait",
+    "coroutine:lua:loop-iteration:1",
+    "coroutine:lua:loop-iteration:2",
+    "coroutine:lua:loop-iteration:3",
+    "coroutine:lua:loop-completed-count:3",
+    "coroutine:lua:composed-wait-ok",
+    "coroutine:lua:composed-wait-complete",
+    "coroutine:lua:cancellation-gate"
+  ],
+  "language": {
+    "groupId": "com.m8test.language",
+    "artifactId": "lua",
+    "version": "0.1.7",
+    "languageEntryId": "lua"
+  }
+}
