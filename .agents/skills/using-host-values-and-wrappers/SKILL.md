@@ -1,27 +1,17 @@
 ---
 name: using-host-values-and-wrappers
-description: 当 Lua 脚本需要创建 JVM 数组、集合或使用宿主对象 wrapper 时使用。
+description: 设计或使用 M8Test 脚本侧 JVM 集合工厂与宿主对象 wrapper 契约时使用。
 ---
 
 # 使用宿主值与 wrapper
 
-全局变量名称及其公开类型以本模板当前生成文件为准。构造脚本需要传给 JVM API 的数组和集合时，优先使用宿主公开的 Arrays、Iterables、Maps、Sequences 工厂；使用 ObjectWrappers 的专用 wrapper 操作支持的 JVM 对象。
+先按目标版本的公开 API 确认工厂和 wrapper 的职责。创建脚本需要交给 JVM API 的容器时，使用匹配的类型化数组/集合工厂；已有对象需要脚本侧专用操作时，使用相应类型化 wrapper。
 
-## 类型化工厂和 wrapper
+- 脚本语言原生 array/list/table 与 JVM array/List/Set/Map 不等价；选择明确的目标类型和可变性。
+- wrapper 只承诺其接口明确提供的操作。通用 wrapper 不会代理任意对象的全部方法；变量 wrapper 与数据对象 wrapper 用途不同。
+- wrapper 若与原对象共享底层状态，修改会反映到原对象；转换工厂也可能创建新对象。查返回类型，不假设所有操作原地修改。
+- `getOrigin()` 会把调用方带回原生 JVM 类型及其依赖边界。仅在下游 API 确实要求该类型且类型已确认时解包。
+- origin 是互操作能力通道，不是访问控制机制；不能用 wrapper 声称隔离或裁剪原对象权限。
+- 数值、字符、nullable、数组、callback 和重载转换由语言运行时及目标签名决定。共享规则不得从一种语言外推到另一种；引用对应语言的本地互操作技能。
 
-```lua
-local raw = _arrays:intArrayOf(3, 1, 2)
-local values = _objectWrappers:wrapIntArray(raw)
-values:set(0, 7)
-assert(values:getSize() == 3 and values:contains(7))
-```
-
-根据目标签名选择 primitive array、引用 array、List、Set、Map、Pair 或 Sequence 工厂。脚本语言原生 list/table/array 不自动等同 JVM 容器。
-
-## Wrapper 与 origin
-
-类型化 wrapper 只承诺其接口定义的操作；通用 wrap 不会代理任意对象的全部方法。wrapper 操作若与原始对象共享底层数据，修改会反映到该对象；转换成新数组或集合时检查具体 API 的返回值与可变性。只有下游 API 明确要求原始类型时才取 getOrigin()，因为这会让脚本依赖该 JVM 类型及其库。VariableWrappers 用于脚本变量及元信息，不替代数据对象 wrapper。
-
-## 验证
-
-本模板的 lua-template-jvm-interop Test Control 场景验证本语言的工厂调用语法、wrapper 操作和底层数组更新。新增用法时同步增加设备端断言并运行该场景；构建成功只证明静态编译或源码生成完成。
+验证要覆盖真实脚本运行时的目标类型、可变性和身份语义；代码补全或静态编译不构成运行时证据。
