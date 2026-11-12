@@ -31,7 +31,7 @@ _G._composeView:create(function(slot)
                         text:setText(_G._stringResources:getString("demo.counter.button"))
                     end)
                 end)
-                textButton:setOnClick(function()
+                textButton:onClick(function()
                     -- 4. 点击按钮时,更新状态变量的值
                     state:setValue(state:getValue() + 1)
                 end)
